@@ -1,0 +1,148 @@
+{
+  "entities": {
+    "Admin": {
+      "title": "Admin",
+      "description": "Authorized temple committee administrators with management rights",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Admin email address"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["super_admin", "admin", "tech_lead"],
+          "description": "Administrative authority level"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Full name of committee admin"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp of admin record creation"
+        }
+      },
+      "required": ["email", "role"]
+    },
+    "PandalConfig": {
+      "title": "PandalConfig",
+      "description": "Global pandal theme, description, and UPI configuration",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the puja committee"
+        },
+        "subName": {
+          "type": "string",
+          "description": "Secondary title"
+        },
+        "tagline": {
+          "type": "string",
+          "description": "Devotional tagline"
+        },
+        "location": {
+          "type": "string",
+          "description": "Pandal location"
+        },
+        "currentTheme": {
+          "type": "string",
+          "description": "Current puja year theme"
+        },
+        "upiId": {
+          "type": "string",
+          "description": "UPI ID for donations"
+        },
+        "payeeName": {
+          "type": "string",
+          "description": "UPI payee name"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last updated timestamp"
+        }
+      },
+      "required": ["name", "upiId"]
+    },
+    "LiveUpdate": {
+      "title": "LiveUpdate",
+      "description": "Realtime announcements and crowd status updates",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Title of the update"
+        },
+        "message": {
+          "type": "string",
+          "description": "Details of the update"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["live", "crowd", "aarti", "bhog"],
+          "description": "Category of notice"
+        },
+        "isLive": {
+          "type": "boolean",
+          "description": "Whether notice is actively broadcasted"
+        },
+        "time": {
+          "type": "string",
+          "description": "Display time"
+        }
+      },
+      "required": ["title", "message", "type", "isLive"]
+    },
+    "GalleryImage": {
+      "title": "GalleryImage",
+      "description": "High definition images of deity and pandal",
+      "type": "object",
+      "properties": {
+        "image": {
+          "type": "string",
+          "description": "Cloudinary CDN or asset image URL"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of photo"
+        },
+        "category": {
+          "type": "string",
+          "description": "Category"
+        },
+        "caption": {
+          "type": "string",
+          "description": "Devotional description"
+        }
+      },
+      "required": ["image", "title", "category"]
+    }
+  },
+  "firestore": {
+    "/admins/{adminId}": {
+      "schema": {
+        "$ref": "#/entities/Admin"
+      },
+      "description": "Authenticated temple administrators"
+    },
+    "/pandal_config/{configId}": {
+      "schema": {
+        "$ref": "#/entities/PandalConfig"
+      },
+      "description": "Pandal configuration and UPI payment settings"
+    },
+    "/live_updates/{updateId}": {
+      "schema": {
+        "$ref": "#/entities/LiveUpdate"
+      },
+      "description": "Realtime broadcasts and live announcements"
+    },
+    "/gallery/{imageId}": {
+      "schema": {
+        "$ref": "#/entities/GalleryImage"
+      },
+      "description": "Pandal photo gallery collection"
+    }
+  }
+}

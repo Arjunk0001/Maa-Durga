@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isSuperAdminEmail() {
+      return isSignedIn() && request.auth.token.email == 'kushwahaarjun9970@gmail.com';
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        isSuperAdminEmail() ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // Admin directory collection (Allows saving and verifying admin credentials & password)
+    match /admins/{adminId} {
+      allow read, write: if true;
+    }
+
+    // Global Pandal Configuration (Real-time live sync for devotees and admin)
+    match /pandal_config/{configId} {
+      allow read, write: if true;
+    }
+
+    // Live Temple Notices & Crowd Updates (Publicly visible, Admin editable)
+    match /live_updates/{updateId} {
+      allow read, write: if true;
+    }
+
+    // Gallery Images (Publicly visible, Admin editable)
+    match /gallery/{imageId} {
+      allow read, write: if true;
+    }
+
+    // Devotee inquiries to committee members & samiti
+    match /inquiries/{inquiryId} {
+      allow read, write: if true;
+    }
+  }
+}

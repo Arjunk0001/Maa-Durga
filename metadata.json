@@ -1,0 +1,6 @@
+{
+  "name": "Shree Shakti Durga Puja Samiti",
+  "description": "Devotional digital Durga Puja Pandal experience with live virtual darshan, event schedule, donations, and puja samiti information in Lucknow.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
